@@ -1,0 +1,17 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+#
+# This vagrantfile is used to provision VM that has all dependencies to build
+# Treadmill components.
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "centos/7"
+  config.vm.provision "shell", inline: <<-SHELL
+    rpm -Uvh \
+        https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    yum install -y perl gcc dkms kernel-devel kernel-headers make bzip2
+    yum install -y python-setuptools python36 python36-pip python36-devel
+    yum install -y vim vim-enhanced git krb5-devel autoconf automake gcc-c++ \
+        libevent-devel rpm-build wget java-1.8.0-openjdk-devel tmux
+  SHELL
+end
